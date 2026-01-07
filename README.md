@@ -7,6 +7,8 @@ The objective of this project is to build a domain-specific Question Answering s
 - Answers user queries strictly based on the book
 - Avoids generating information outside the provided content
 
+Full book text is excluded due to copyright.
+
 ### Backend
 - **Python**  
   Used to handle data processing, embeddings, retrieval logic, and API handling.
