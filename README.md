@@ -1,4 +1,4 @@
-Bridgerton QA is a web-based question answering system that is trained on  
+Bridgerton QA is a web-based question answering system that is trained on 
 **Bridgerton – Book 3 by Julia Quinn**.  
 The website is designed to answer **any question related to the book** by retrieving relevant content from the text and generating accurate responses.
 
