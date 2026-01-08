@@ -1,81 +1,93 @@
-/* Page background */
+/* 1. Page background (messy vintage blue) */
 body {
     margin: 0;
     min-height: 100vh;
-    background-color: #88b6eb;
-    /* soft blush pink */
+    background: linear-gradient(135deg,
+            #d8e6f2,
+            #f3e6f0,
+            #e9f0e6);
+    font-family: "Georgia", serif;
+
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-family: "Georgia", "Times New Roman", serif;
+    align-items: center;
 }
 
-/* Outer page container */
+/* 2. Main page wrapper */
 .page {
     padding: 40px;
 }
 
-/* Invitation card */
-.card {
-    background-color: #fbf6ee;
-    /* parchment */
-    width: 480px;
+/* 3. Framed container */
+.frame {
+    background: #fffaf2;
+    width: 520px;
     padding: 50px 40px;
     text-align: center;
-    border: 2px solid #c8b79f;
+
+    border: 3px solid #b8a98c;
+    border-radius: 18px;
+
+    /* layered vintage frame */
+    outline: 2px solid #d8cbb3;
+    outline-offset: 10px;
+
+    position: relative;
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* 4. Wavy inner frame illusion */
+.frame::before {
+    content: "";
+    position: absolute;
+    inset: 15px;
+    border: 2px dashed #c9b79a;
+    border-radius: 22px;
+    pointer-events: none;
+}
+
+/* 5. Title */
+.frame h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #3b2a1a;
+}
+
+/* 6. Image placeholder */
+.image-box {
+    width: 280px;
+    height: 180px;
+    margin: 0 auto 35px;
+
+    border: 2px solid #b8a98c;
     border-radius: 12px;
 
-    /* layered antique frame effect */
-    box-shadow:
-        0 0 0 6px #e6d9c7,
-        0 0 0 12px #c8b79f,
-        0 15px 40px rgba(0, 0, 0, 0.2);
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-/* Opening line */
-.header {
     font-style: italic;
-    font-size: 18px;
-    margin-bottom: 25px;
-    color: #4b3a2f;
+    color: #6b5a45;
+    background: #f7efe2;
 }
 
-/* Main title */
-.card h1 {
-    font-size: 34px;
-    margin: 25px 0;
-    letter-spacing: 1px;
-    color: #3f2b1f;
-}
+/* 7. Button */
+.enter-btn {
+    display: inline-block;
+    padding: 12px 26px;
 
-/* Body text */
-.text {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #5a4a3f;
-    margin-bottom: 20px;
-}
+    border: 2px solid #3b2a1a;
+    border-radius: 30px;
 
-/* Signature */
-.signature {
-    margin-top: 30px;
-    font-size: 15px;
-    color: #3f2b1f;
-}
-
-.signature em {
-    font-style: italic;
+    text-decoration: none;
+    color: #3b2a1a;
     font-weight: bold;
+    background: transparent;
+
+    transition: all 0.3s ease;
 }
 
-/* Responsive tweak */
-@media (max-width: 520px) {
-    .card {
-        width: 90%;
-        padding: 40px 25px;
-    }
-
-    .card h1 {
-        font-size: 28px;
-    }
+.enter-btn:hover {
+    background: #3b2a1a;
+    color: #fff;
 }
