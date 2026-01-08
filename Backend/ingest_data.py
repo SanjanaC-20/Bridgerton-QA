@@ -146,6 +146,7 @@ def summarize_and_chunk(path: Path, method: str = "sentence", chunk_size: int = 
 
 def main() -> None:
     import argparse
+    import fnmatch
 
     parser = argparse.ArgumentParser(description="Load and summarize text files from Data/")
     parser.add_argument("--chunk", action="store_true", help="Also chunk files after loading")
@@ -153,6 +154,7 @@ def main() -> None:
     parser.add_argument("--overlap", type=int, default=50, help="Overlap size in words")
     parser.add_argument("--method", choices=("sentence", "word"), default="sentence", help="Chunking method")
     parser.add_argument("--preview-chunks", type=int, default=3, help="Number of chunk previews to show")
+    parser.add_argument("--filter", type=str, default="*", help="Glob pattern to filter file names (e.g., '*Summary*.txt')")
     args = parser.parse_args()
 
     try:
@@ -165,6 +167,21 @@ def main() -> None:
     if not files:
         print(f"No .txt files found in {data_dir}")
         return
+
+    # Apply optional glob filter to filenames
+    if args.filter and args.filter != "*":
+        filtered = [p for p in files if fnmatch.fnmatch(p.name, args.filter)]
+        if not filtered:
+            print(f"No files matched the filter '{args.filter}' in {data_dir}")
+            return
+        files = filtered
+
+    # Informative notices for common filename changes
+    filenames = [p.name for p in files]
+    if "Prologue.txt" not in filenames:
+        print("Note: 'Prologue.txt' not found in Data/ (it may have been removed).")
+    if "Bridgerton Summary.txt" in filenames:
+        print("Note: 'Bridgerton Summary.txt' found and will be processed.")
 
     for path in files:
         try:
