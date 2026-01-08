@@ -1,0 +1,81 @@
+/* Page background */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #88b6eb;
+    /* soft blush pink */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Georgia", "Times New Roman", serif;
+}
+
+/* Outer page container */
+.page {
+    padding: 40px;
+}
+
+/* Invitation card */
+.card {
+    background-color: #fbf6ee;
+    /* parchment */
+    width: 480px;
+    padding: 50px 40px;
+    text-align: center;
+    border: 2px solid #c8b79f;
+    border-radius: 12px;
+
+    /* layered antique frame effect */
+    box-shadow:
+        0 0 0 6px #e6d9c7,
+        0 0 0 12px #c8b79f,
+        0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Opening line */
+.header {
+    font-style: italic;
+    font-size: 18px;
+    margin-bottom: 25px;
+    color: #4b3a2f;
+}
+
+/* Main title */
+.card h1 {
+    font-size: 34px;
+    margin: 25px 0;
+    letter-spacing: 1px;
+    color: #3f2b1f;
+}
+
+/* Body text */
+.text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #5a4a3f;
+    margin-bottom: 20px;
+}
+
+/* Signature */
+.signature {
+    margin-top: 30px;
+    font-size: 15px;
+    color: #3f2b1f;
+}
+
+.signature em {
+    font-style: italic;
+    font-weight: bold;
+}
+
+/* Responsive tweak */
+@media (max-width: 520px) {
+    .card {
+        width: 90%;
+        padding: 40px 25px;
+    }
+
+    .card h1 {
+        font-size: 28px;
+    }
+}
