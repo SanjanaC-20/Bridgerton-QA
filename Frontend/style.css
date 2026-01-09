@@ -174,3 +174,16 @@ body {
         padding: 10px 20px;
     }
 }
+
+.signature {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+    animation: write 3s steps(40) forwards;
+}
+
+@keyframes write {
+    to {
+        width: 100%;
+    }
+}
