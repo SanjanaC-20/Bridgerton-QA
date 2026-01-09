@@ -1,3 +1,6 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Great+Vibes&display=swap');
+
 /* 1. Page background (messy vintage blue) */
 body {
     margin: 0;
@@ -6,7 +9,13 @@ body {
             #d8e6f2,
             #f3e6f0,
             #e9f0e6);
-    font-family: "Georgia", serif;
+
+    /* use EB Garamond for readable, letter-like body text */
+    font-family: "EB Garamond", "Georgia", serif;
+
+    /* increased base text size and improved line-height for readability */
+    font-size: 18px;
+    line-height: 1.6;
 
     display: flex;
     justify-content: center;
@@ -48,9 +57,14 @@ body {
 
 /* 5. Title */
 .frame h1 {
-    font-size: 32px;
+    /* Playfair Display for grand, romantic headings */
+    font-family: "Playfair Display", "Georgia", serif;
+    font-weight: 1000;
+    /* increased heading size */
+    font-size: 60px;
     margin-bottom: 30px;
     color: #3b2a1a;
+    letter-spacing: 0.6px;
 }
 
 /* 6. Image placeholder */
@@ -71,6 +85,16 @@ body {
     background: #f7efe2;
 }
 
+/* signature style (handwritten flourish) */
+.signature {
+    font-family: "Great Vibes", "Brush Script MT", cursive;
+    /* increased signature size for emphasis */
+    font-size: 34px;
+    color: #3b2a1a;
+    margin-top: 18px;
+    display: inline-block;
+}
+
 /* 7. Button */
 .enter-btn {
     display: inline-block;
@@ -79,15 +103,74 @@ body {
     border: 2px solid #3b2a1a;
     border-radius: 30px;
 
+    /* match button with heading tone */
+    font-family: "Playfair Display", "Georgia", serif;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+
+    /* set button text size */
+    font-size: 16px;
     text-decoration: none;
     color: #3b2a1a;
-    font-weight: bold;
+    font-weight: 700;
     background: transparent;
 
     transition: all 0.3s ease;
 }
 
-.enter-btn:hover {
-    background: #3b2a1a;
-    color: #fff;
+/* 8. Staggered letter reveal */
+.staggered {
+    display: inline-block;
+    white-space: pre;
+    /* preserve spaces */
+    line-height: 1;
+    /* avoid vertical jump while animating */
+}
+
+.staggered .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(8px) rotateX(-4deg);
+    animation: charIn 420ms cubic-bezier(.2, .8, .2, 1) forwards;
+    animation-delay: calc(var(--i) * 0.04s);
+    will-change: transform, opacity;
+}
+
+@keyframes charIn {
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Optional: subtle re-run on hover for interactive flourish */
+.staggered:hover .char {
+    animation-name: charIn;
+    animation-duration: 360ms;
+    animation-fill-mode: both;
+}
+
+/* Responsive adjustments for small screens */
+@media (max-width: 480px) {
+    body {
+        font-size: 16px;
+    }
+
+    .frame {
+        width: 92%;
+        padding: 30px 20px;
+    }
+
+    .frame h1 {
+        font-size: 36px;
+    }
+
+    .signature {
+        font-size: 24px;
+    }
+
+    .enter-btn {
+        font-size: 15px;
+        padding: 10px 20px;
+    }
 }
