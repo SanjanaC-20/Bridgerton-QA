@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bridgerton-o-pedia</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Great+Vibes&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       CSS CUSTOM PROPERTIES — Bridgerton Palette
+    ========================================================= */
+    :root {
+      --cream:       #fdf6ec;
+      --parchment:   #f5e9d3;
+      --blush:       #e8c4c0;
+      --lavender:    #c9b8d8;
+      --wisteria:    #a888c0;
+      --dusty-blue:  #8aafc4;
+      --gold:        #c4983a;
+      --gold-light:  #e8c97a;
+      --gold-dark:   #8a6820;
+      --ink:         #2a1f14;
+      --ink-soft:    #4a3728;
+      --shadow:      rgba(42, 31, 20, 0.18);
+    }
+
+    /* =========================================================
+       RESET & BASE
+    ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cormorant Upright', Georgia, serif;
+      background-color: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4' fill='%23c4983a' opacity='0.7'/%3E%3C/svg%3E") 12 12, auto;
+    }
+
+    /* =========================================================
+       PARCHMENT TEXTURE OVERLAY (pseudo-element on body)
+    ========================================================= */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.6;
+    }
+
+    /* =========================================================
+       GOLD DECORATIVE BORDER — GLOBAL FRAME
+    ========================================================= */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 12px;
+      border: 1.5px solid var(--gold);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.45;
+    }
+
+    /* =========================================================
+       SCREENS — shared
+    ========================================================= */
+    .screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      transition: opacity 0.9s ease, transform 0.9s ease;
+      z-index: 10;
+    }
+    .screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+    }
+
+    /* =========================================================
+       SCREEN 1 — LANDING / TITLE
+    ========================================================= */
+    #screen-landing {
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(201,184,216,0.35) 0%, transparent 65%),
+        radial-gradient(ellipse at 80% 80%, rgba(138,175,196,0.25) 0%, transparent 55%),
+        linear-gradient(170deg, #fdf6ec 0%, #f0e4f4 50%, #e8f0f8 100%);
+    }
+
+    .title-wrap {
+      text-align: center;
+      animation: titleFadeIn 2.6s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes titleFadeIn {
+      0%   { opacity: 0; transform: translateY(30px) scale(0.96); letter-spacing: 0.35em; }
+      60%  { opacity: 0.85; }
+      100% { opacity: 1; transform: translateY(0) scale(1); letter-spacing: 0.18em; }
+    }
+
+    .title-pre {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.2rem, 3vw, 1.9rem);
+      color: var(--wisteria);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+      opacity: 0.85;
+    }
+
+    .title-main {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 7vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1;
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Gold shimmer sweep across title */
+    .title-main::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 30%, var(--gold-light) 50%, transparent 70%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3.5s ease 1.8s infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .title-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1rem auto;
+      width: min(420px, 90vw);
+    }
+    .title-divider::before,
+    .title-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .title-divider-icon {
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+
+    .title-sub {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(0.9rem, 2.2vw, 1.25rem);
+      color: var(--ink-soft);
+      letter-spacing: 0.06em;
+      opacity: 0.8;
+    }
+
+    /* Corner ornaments */
+    .corner {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      opacity: 0.4;
+    }
+    .corner svg { width: 100%; height: 100%; }
+    .corner-tl { top: 30px; left: 30px; }
+    .corner-tr { top: 30px; right: 30px; transform: scaleX(-1); }
+    .corner-bl { bottom: 30px; left: 30px; transform: scaleY(-1); }
+    .corner-br { bottom: 30px; right: 30px; transform: scale(-1); }
+
+    /* =========================================================
+       PETAL ANIMATION
+    ========================================================= */
+    #petal-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 500;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -40px;
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      animation: petalFall linear forwards;
+    }
+
+    @keyframes petalFall {
+      0%   { opacity: 0;   transform: translateY(0)   rotate(0deg)   translateX(0); }
+      10%  { opacity: 0.8; }
+      80%  { opacity: 0.6; }
+      100% { opacity: 0;   transform: translateY(110vh) rotate(720deg) translateX(var(--drift)); }
+    }
+
+    /* =========================================================
+       SCREEN 2 — WELCOME (Lady Whistledown)
+    ========================================================= */
+    #screen-welcome {
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(201,184,216,0.28) 0%, transparent 60%),
+        linear-gradient(160deg, #fdf6ec 0%, #f5ecd8 100%);
+    }
+
+    .letter-card {
+      background:
+        linear-gradient(145deg, #fffdf5 0%, #fdf3e3 60%, #f8ead5 100%);
+      border: 1px solid rgba(196,152,58,0.35);
+      border-radius: 2px;
+      padding: clamp(2rem, 5vw, 3.5rem) clamp(1.8rem, 5vw, 4rem);
+      max-width: 640px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow:
+        0 2px 40px rgba(42,31,20,0.12),
+        inset 0 0 60px rgba(196,152,58,0.04);
+      animation: cardReveal 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(24px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Wax seal top */
+    .wax-seal {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 44px;
+      background: radial-gradient(circle, #c4983a 40%, #8a6820 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cream);
+      font-size: 1.2rem;
+      box-shadow: 0 3px 12px rgba(42,31,20,0.25);
+    }
+
+    .letter-header {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      color: var(--gold-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .letter-rule {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0.8rem auto 1.6rem;
+    }
+
+    .letter-body {
+      font-family: 'IM Fell English', serif;
+      font-size: clamp(1rem, 2.2vw, 1.22rem);
+      line-height: 1.9;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    .letter-body strong {
+      font-style: normal;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .letter-signature {
+      margin-top: 1.8rem;
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.3rem, 3vw, 1.9rem);
+      color: var(--gold-dark);
+    }
+
+    .letter-sig-rule {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0.5rem auto 0;
+    }
+
+    .btn-enter {
+      margin-top: 2rem;
+      padding: 0.75rem 2.4rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: var(--cream);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(196,152,58,0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-enter::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .btn-enter:hover { transform: translateY(-2px); box-shadow: 0 7px 28px rgba(196,152,58,0.55); }
+    .btn-enter:hover::before { opacity: 1; }
+    .btn-enter:active { transform: translateY(0); }
+
+    /* =========================================================
+       SCREEN 3 — MAIN INTERFACE
+    ========================================================= */
+    #screen-main {
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 3rem;
+      padding-bottom: 4rem;
+      background:
+        radial-gradient(ellipse at 70% 10%, rgba(201,184,216,0.3) 0%, transparent 55%),
+        radial-gradient(ellipse at 20% 80%, rgba(138,175,196,0.2) 0%, transparent 50%),
+        linear-gradient(180deg, #fdf6ec 0%, #f5e9d3 100%);
+    }
+
+    /* Wisteria hanging top decoration */
+    .wisteria-top {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 80px;
+      pointer-events: none;
+      z-index: 100;
+      overflow: hidden;
+    }
+    .wisteria-top svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Masthead */
+    .masthead {
+      text-align: center;
+      margin-top: 1.5rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+      z-index: 10;
+    }
+    .masthead-script {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      color: var(--wisteria);
+      opacity: 0.9;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .masthead-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      position: relative;
+      display: inline-block;
+    }
+    .masthead-title::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 25%, var(--gold-light) 50%, transparent 75%);
+      background-size: 250% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s ease 0.5s infinite;
+    }
+    .masthead-rule {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 0.8rem auto 0;
+      width: min(360px, 90vw);
+    }
+    .masthead-rule::before, .masthead-rule::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .masthead-rule span { color: var(--gold); font-size: 0.9rem; }
+
+    /* Search parchment card */
+    .search-card {
+      background:
+        linear-gradient(150deg, #fffdf5 0%, #fdf3e3 70%, #f8ead5 100%);
+      border: 1px solid rgba(196,152,58,0.3);
+      max-width: 680px;
+      width: calc(100% - 3rem);
+      margin: 0 auto;
+      padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 4vw, 2.8rem);
+      box-shadow:
+        0 4px 30px rgba(42,31,20,0.1),
+        0 1px 0 rgba(255,255,255,0.7) inset;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Decorative corners on card */
+    .search-card::before,
+    .search-card::after {
+      content: '❧';
+      position: absolute;
+      color: var(--gold);
+      font-size: 1.5rem;
+      opacity: 0.5;
+    }
+    .search-card::before { top: 8px; left: 14px; }
+    .search-card::after  { bottom: 8px; right: 14px; transform: rotate(180deg); }
+
+    .search-label {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+      color: var(--ink-soft);
+      text-align: center;
+      display: block;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.03em;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 0.7rem;
+      align-items: stretch;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 0.85rem 1.2rem;
+      font-family: 'Cormorant Upright', serif;
+      font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+      color: var(--ink);
+      background: rgba(255,253,245,0.9);
+      border: 1px solid rgba(196,152,58,0.45);
+      border-radius: 1px;
+      outline: none;
+      box-shadow: inset 0 1px 4px rgba(42,31,20,0.06);
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .search-input::placeholder {
+      font-style: italic;
+      color: rgba(74,55,40,0.45);
+      font-size: 0.95em;
+    }
+    .search-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(196,152,58,0.12), inset 0 1px 4px rgba(42,31,20,0.06);
+    }
+
+    .btn-inquire {
+      padding: 0.85rem 1.6rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: var(--cream);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 3px 14px rgba(196,152,58,0.38);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .btn-inquire::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .btn-inquire:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196,152,58,0.5); }
+    .btn-inquire:hover::after { opacity: 1; }
+    .btn-inquire:active { transform: translateY(0); }
+    .btn-inquire:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Topics row */
+    .topics-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+      justify-content: center;
+    }
+    .topic-chip {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      padding: 0.28rem 0.85rem;
+      border: 1px solid rgba(196,152,58,0.4);
+      color: var(--ink-soft);
+      background: rgba(253,246,236,0.7);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+      border-radius: 1px;
+    }
+    .topic-chip:hover {
+      background: var(--gold);
+      color: var(--cream);
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    /* Answer scroll */
+    .answer-scroll {
+      max-width: 680px;
+      width: calc(100% - 3rem);
+      margin: 1.8rem auto 0;
+      position: relative;
+      z-index: 10;
+      display: none;
+    }
+    .answer-scroll.visible { display: block; }
+
+    .answer-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .answer-header::before,
+    .answer-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .answer-header span {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.3rem;
+      color: var(--gold-dark);
+      white-space: nowrap;
+    }
+
+    .answer-card {
+      background: linear-gradient(150deg, #fffdf5 0%, #fdf3e3 100%);
+      border: 1px solid rgba(196,152,58,0.28);
+      padding: clamp(1.4rem, 3.5vw, 2.2rem) clamp(1.4rem, 3.5vw, 2.5rem);
+      position: relative;
+      box-shadow:
+        0 4px 28px rgba(42,31,20,0.09),
+        0 1px 0 rgba(255,255,255,0.8) inset;
+      animation: answerReveal 0.7s ease forwards;
+    }
+    @keyframes answerReveal {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .answer-card::before {
+      content: '"';
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      font-family: 'Great Vibes', cursive;
+      font-size: 4rem;
+      color: var(--gold);
+      opacity: 0.2;
+      line-height: 1;
+    }
+
+    .answer-topic {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--wisteria);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.05em;
+    }
+
+    .answer-text {
+      font-family: 'Cormorant Upright', serif;
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      line-height: 1.85;
+      color: var(--ink-soft);
+    }
+
+    .answer-text p + p { margin-top: 1em; }
+    .answer-text strong { color: var(--ink); font-weight: 600; }
+    .answer-text em { color: var(--gold-dark); }
+
+    /* Loading quill */
+    .quill-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 2rem;
+    }
+    .quill-icon {
+      font-size: 2rem;
+      animation: quillBob 1s ease infinite alternate;
+    }
+    @keyframes quillBob {
+      from { transform: rotate(-10deg) translateY(0); }
+      to   { transform: rotate(10deg) translateY(-6px); }
+    }
+    .quill-text {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      opacity: 0.7;
+    }
+
+    /* Footer */
+    .main-footer {
+      margin-top: 4rem;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+    .footer-rule {
+      width: min(320px, 80vw);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 1rem;
+    }
+    .footer-text {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      opacity: 0.55;
+      letter-spacing: 0.05em;
+    }
+
+    /* =========================================================
+       FLOATING PETALS (ambient — always present on main)
+    ========================================================= */
+    .ambient-petal {
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50% 0 50% 0;
+      animation: ambientFloat linear infinite;
+      z-index: 1;
+    }
+    @keyframes ambientFloat {
+      0%   { transform: translateY(-60px) translateX(0) rotate(0deg); opacity: 0; }
+      5%   { opacity: 0.5; }
+      95%  { opacity: 0.3; }
+      100% { transform: translateY(110vh) translateX(var(--drift)) rotate(540deg); opacity: 0; }
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width: 480px) {
+      body::after { inset: 6px; }
+      .corner { width: 40px; height: 40px; }
+      .corner-tl { top: 16px; left: 16px; }
+      .corner-tr { top: 16px; right: 16px; }
+      .corner-bl { bottom: 16px; left: 16px; }
+      .corner-br { bottom: 16px; right: 16px; }
+      .search-row { flex-direction: column; }
+      .btn-inquire { width: 100%; padding: 0.9rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     PETAL CONTAINER (for burst + ambient)
+============================================================ -->
+<div id="petal-container" aria-hidden="true"></div>
+
+<!-- ============================================================
+     SCREEN 1: LANDING
+============================================================ -->
+<section id="screen-landing" class="screen" role="main" aria-label="Landing screen">
+
+  <!-- Decorative corners (SVG floral) -->
+  <div class="corner corner-tl" aria-hidden="true">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 55 C5 30 30 5 55 5" stroke="#c4983a" stroke-width="1.5" fill="none"/>
+      <path d="M5 40 C5 22 22 5 40 5" stroke="#c4983a" stroke-width="0.7" fill="none" opacity="0.5"/>
+      <circle cx="5" cy="55" r="3" fill="#c4983a" opacity="0.6"/>
+      <circle cx="55" cy="5" r="3" fill="#c4983a" opacity="0.6"/>
+      <path d="M18 18 Q25 10 32 18 Q25 26 18 18Z" fill="#c9b8d8" opacity="0.5"/>
+      <path d="M12 30 Q18 23 24 30 Q18 37 12 30Z" fill="#e8c4c0" opacity="0.4"/>
+    </svg>
+  </div>
+  <div class="corner corner-tr" aria-hidden="true">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 55 C5 30 30 5 55 5" stroke="#c4983a" stroke-width="1.5" fill="none"/>
+      <path d="M5 40 C5 22 22 5 40 5" stroke="#c4983a" stroke-width="0.7" fill="none" opacity="0.5"/>
+      <circle cx="5" cy="55" r="3" fill="#c4983a" opacity="0.6"/>
+      <circle cx="55" cy="5" r="3" fill="#c4983a" opacity="0.6"/>
+      <path d="M18 18 Q25 10 32 18 Q25 26 18 18Z" fill="#c9b8d8" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="corner corner-bl" aria-hidden="true">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 55 C5 30 30 5 55 5" stroke="#c4983a" stroke-width="1.5" fill="none"/>
+      <path d="M5 40 C5 22 22 5 40 5" stroke="#c4983a" stroke-width="0.7" fill="none" opacity="0.5"/>
+      <circle cx="5" cy="55" r="3" fill="#c4983a" opacity="0.6"/>
+      <circle cx="55" cy="5" r="3" fill="#c4983a" opacity="0.6"/>
+    </svg>
+  </div>
+  <div class="corner corner-br" aria-hidden="true">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 55 C5 30 30 5 55 5" stroke="#c4983a" stroke-width="1.5" fill="none"/>
+      <path d="M5 40 C5 22 22 5 40 5" stroke="#c4983a" stroke-width="0.7" fill="none" opacity="0.5"/>
+      <circle cx="5" cy="55" r="3" fill="#c4983a" opacity="0.6"/>
+      <circle cx="55" cy="5" r="3" fill="#c4983a" opacity="0.6"/>
+    </svg>
+  </div>
+
+  <div class="title-wrap">
+    <p class="title-pre">The Official Compendium of</p>
+    <h1 class="title-main" data-text="Bridgerton-o-pedia">Bridgerton-o-pedia</h1>
+    <div class="title-divider">
+      <span class="title-divider-icon">✦</span>
+    </div>
+    <p class="title-sub">An encyclopædia of all things Ton, Season & Scandal</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN 2: WELCOME (Lady Whistledown letter)
+============================================================ -->
+<section id="screen-welcome" class="screen hidden" aria-label="Welcome letter">
+  <div class="letter-card">
+    <div class="wax-seal" aria-hidden="true">❧</div>
+
+    <p class="letter-header">Lady Whistledown's Society Papers</p>
+    <div class="letter-rule"></div>
+
+    <div class="letter-body">
+      <p><em>Dearest gentle reader,</em></p>
+      <br/>
+      <p>
+        Welcome to <strong>Bridgerton-o-pedia</strong>. I do hope you find every answer
+        your curious heart seeks within these pages.
+      </p>
+      <br/>
+      <p>
+        Whether you enquire of secret engagements, scandalous waltzes, or the very
+        finest families of the Ton — all shall be illuminated here with the frankness
+        this column is known for.
+      </p>
+      <br/>
+      <p>
+        Do proceed, dear reader, for the season has only just begun.
+      </p>
+    </div>
+
+    <p class="letter-signature">With affection and intrigue, Sanjana</p>
+    <div class="letter-sig-rule"></div>
+
+    <button class="btn-enter" id="btn-enter" aria-label="Enter Bridgerton-o-pedia">
+      Enter the Ton ✦
+    </button>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN 3: MAIN INTERFACE
+============================================================ -->
+<section id="screen-main" class="screen hidden" aria-label="Main encyclopedia interface">
+
+  <!-- Wisteria decorative top bar -->
+  <div class="wisteria-top" aria-hidden="true">
+    <svg viewBox="0 0 800 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- Hanging wisteria clusters -->
+      <defs>
+        <radialGradient id="wg1" cx="50%" cy="0%" r="100%">
+          <stop offset="0%" stop-color="#c9b8d8" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#a888c0" stop-opacity="0.3"/>
+        </radialGradient>
+      </defs>
+      <!-- Vines -->
+      <path d="M0 0 Q50 20 80 60 Q100 80 120 70" stroke="#8aafc4" stroke-width="1.5" fill="none" opacity="0.4"/>
+      <path d="M200 0 Q230 15 250 55 Q260 70 280 65" stroke="#8aafc4" stroke-width="1.2" fill="none" opacity="0.35"/>
+      <path d="M400 0 Q420 18 430 58 Q440 75 460 68" stroke="#8aafc4" stroke-width="1.5" fill="none" opacity="0.4"/>
+      <path d="M600 0 Q630 22 650 55 Q660 70 680 62" stroke="#8aafc4" stroke-width="1.2" fill="none" opacity="0.35"/>
+      <path d="M750 0 Q770 15 780 50 Q785 65 800 60" stroke="#8aafc4" stroke-width="1.5" fill="none" opacity="0.4"/>
+      <!-- Clusters -->
+      <g opacity="0.55" fill="url(#wg1)">
+        <ellipse cx="80" cy="62" rx="9" ry="14"/>
+        <ellipse cx="92" cy="56" rx="7" ry="11"/>
+        <ellipse cx="70" cy="57" rx="6" ry="10"/>
+        <ellipse cx="250" cy="58" rx="8" ry="13"/>
+        <ellipse cx="262" cy="52" rx="6" ry="9"/>
+        <ellipse cx="240" cy="54" rx="7" ry="11"/>
+        <ellipse cx="435" cy="60" rx="9" ry="14"/>
+        <ellipse cx="447" cy="54" rx="7" ry="10"/>
+        <ellipse cx="425" cy="55" rx="6" ry="9"/>
+        <ellipse cx="652" cy="57" rx="8" ry="12"/>
+        <ellipse cx="664" cy="51" rx="6" ry="9"/>
+        <ellipse cx="642" cy="53" rx="7" ry="11"/>
+        <ellipse cx="782" cy="52" rx="7" ry="11"/>
+        <ellipse cx="793" cy="47" rx="5" ry="8"/>
+      </g>
+      <!-- Gradient fade at bottom -->
+      <rect width="800" height="80" fill="url(#fadeBottom)" />
+      <defs>
+        <linearGradient id="fadeBottom" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="60%" stop-color="#fdf6ec" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#fdf6ec" stop-opacity="1"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <span class="masthead-script">The Official Compendium of</span>
+    <h1 class="masthead-title" data-text="Bridgerton-o-pedia">Bridgerton-o-pedia</h1>
+    <div class="masthead-rule"><span>✦</span></div>
+  </header>
+
+  <!-- Search card -->
+  <div class="search-card" role="search">
+    <label class="search-label" for="search-input">
+      "Pray, what scandal or curiosity shall Lady Whistledown illuminate today?"
+    </label>
+
+    <div class="search-row">
+      <input
+        type="text"
+        id="search-input"
+        class="search-input"
+        placeholder="What scandal or curiosity shall we uncover today?"
+        aria-label="Search Bridgerton-o-pedia"
+        autocomplete="off"
+      />
+      <button class="btn-inquire" id="btn-inquire" aria-label="Inquire">
+        Inquire ✦
+      </button>
+    </div>
+
+    <!-- Quick-topic chips -->
+    <div class="topics-row" role="list" aria-label="Suggested topics">
+      <button class="topic-chip" role="listitem" data-topic="The Bridgerton Family">The Bridgerton Family</button>
+      <button class="topic-chip" role="listitem" data-topic="Lady Whistledown">Lady Whistledown</button>
+      <button class="topic-chip" role="listitem" data-topic="The Diamond of the Season">The Diamond</button>
+      <button class="topic-chip" role="listitem" data-topic="Regency Era society rules">Regency Rules</button>
+      <button class="topic-chip" role="listitem" data-topic="Anthony Bridgerton">Anthony Bridgerton</button>
+      <button class="topic-chip" role="listitem" data-topic="Penelope Featherington">Penelope Featherington</button>
+    </div>
+  </div>
+
+  <!-- Answer area -->
+  <div class="answer-scroll" id="answer-scroll" aria-live="polite" aria-atomic="true">
+    <div class="answer-header">
+      <span>Lady Whistledown Responds</span>
+    </div>
+    <div class="answer-card" id="answer-card">
+      <!-- Filled dynamically -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-rule"></div>
+    <p class="footer-text">
+      Published for the discerning members of the Ton · Season of Our Lord 1813
+    </p>
+  </footer>
+
+</section>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* ================================================================
+     UTILITY: wait ms
+  ================================================================ */
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  /* ================================================================
+     PETAL COLORS — blush, lavender, wisteria, light blue
+  ================================================================ */
+  const PETAL_COLORS = [
+    '#e8c4c0', '#c9b8d8', '#d4b8e0', '#b8cee0',
+    '#f2d9d7', '#dbc8ec', '#b8d4e8', '#e8d0dc'
+  ];
+
+  /* ================================================================
+     BURST PETALS — called after title fade-in
+  ================================================================ */
+  function burstPetals() {
+    const container = document.getElementById('petal-container');
+    const count = window.innerWidth < 480 ? 28 : 55;
+
+    for (let i = 0; i < count; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+
+      const size   = 8 + Math.random() * 14;   // 8–22px
+      const color  = PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)];
+      const left   = Math.random() * 100;        // vw
+      const drift  = (Math.random() - 0.5) * 200 + 'px';
+      const dur    = 2.2 + Math.random() * 2.4;  // 2.2–4.6s
+      const delay  = Math.random() * 1.2;
+
+      petal.style.cssText = `
+        width: ${size}px;
+        height: ${size * 0.7}px;
+        background: ${color};
+        left: ${left}vw;
+        --drift: ${drift};
+        animation-duration: ${dur}s;
+        animation-delay: ${delay}s;
+        border-radius: ${Math.random() > 0.5 ? '50% 0 50% 0' : '0 50% 0 50%'};
+        opacity: 0;
+      `;
+      container.appendChild(petal);
+
+      // Remove after animation ends
+      setTimeout(() => petal.remove(), (dur + delay + 0.5) * 1000);
+    }
+  }
+
+  /* ================================================================
+     AMBIENT PETALS — subtle drifting on main screen
+  ================================================================ */
+  function startAmbientPetals() {
+    const body = document.body;
+    const interval = setInterval(() => {
+      if (document.getElementById('screen-main').classList.contains('hidden')) return;
+
+      const petal = document.createElement('div');
+      petal.classList.add('ambient-petal');
+
+      const size  = 5 + Math.random() * 10;
+      const color = PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)];
+      const left  = Math.random() * 100;
+      const drift = (Math.random() - 0.5) * 180 + 'px';
+      const dur   = 9 + Math.random() * 8;
+
+      petal.style.cssText = `
+        width: ${size}px;
+        height: ${size * 0.65}px;
+        background: ${color};
+        left: ${left}vw;
+        top: -40px;
+        --drift: ${drift};
+        animation-duration: ${dur}s;
+        opacity: 0.4;
+        border-radius: ${Math.random() > 0.5 ? '50% 0 50% 0' : '0 50% 0 50%'};
+      `;
+      body.appendChild(petal);
+      setTimeout(() => petal.remove(), (dur + 0.5) * 1000);
+    }, 1800);
+
+    return interval;
+  }
+
+  /* ================================================================
+     SCREEN TRANSITIONS
+  ================================================================ */
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+    const target = document.getElementById(id);
+    target.classList.remove('hidden');
+    if (id === 'screen-main') {
+      // Scroll to top of main
+      target.scrollTop = 0;
+    }
+  }
+
+  /* ================================================================
+     SEQUENCE: landing → welcome → main
+  ================================================================ */
+  async function runSequence() {
+    // Step 1: Landing screen — wait for title fade-in (2.6s)
+    await wait(2700);
+
+    // Step 2: Burst petals
+    burstPetals();
+    await wait(1500);
+
+    // Step 3: Transition to welcome screen
+    showScreen('screen-welcome');
+  }
+
+  /* ================================================================
+     ENTER BUTTON
+  ================================================================ */
+  document.getElementById('btn-enter').addEventListener('click', () => {
+    showScreen('screen-main');
+    startAmbientPetals();
+  });
+
+  /* ================================================================
+     TOPIC CHIPS
+  ================================================================ */
+  document.querySelectorAll('.topic-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const topic = chip.dataset.topic;
+      document.getElementById('search-input').value = topic;
+      handleInquiry(topic);
+    });
+  });
+
+  /* ================================================================
+     INQUIRE BUTTON
+  ================================================================ */
+  document.getElementById('btn-inquire').addEventListener('click', () => {
+    const val = document.getElementById('search-input').value.trim();
+    if (val) handleInquiry(val);
+  });
+
+  // Also allow Enter key
+  document.getElementById('search-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const val = e.target.value.trim();
+      if (val) handleInquiry(val);
+    }
+  });
+
+  /* ================================================================
+     INQUIRY HANDLER — calls Anthropic API
+  ================================================================ */
+  async function handleInquiry(topic) {
+    const scrollArea  = document.getElementById('answer-scroll');
+    const answerCard  = document.getElementById('answer-card');
+    const btn         = document.getElementById('btn-inquire');
+
+    // Show loading state
+    scrollArea.classList.add('visible');
+    answerCard.innerHTML = `
+      <div class="quill-loading">
+        <span class="quill-icon" aria-hidden="true">🪶</span>
+        <span class="quill-text">Lady Whistledown dips her quill…</span>
+      </div>`;
+    btn.disabled = true;
+
+    // Scroll into view
+    setTimeout(() => scrollArea.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: `You are Lady Whistledown, the witty, elegant, and slightly wicked anonymous gossip columnist from Bridgerton's Regency-era London. You write in her distinctive voice: eloquent, observant, occasionally sardonic, and always entertaining. You answer questions about the Bridgerton universe (characters, storylines, Regency society, etiquette, fashion, romance) as though writing an entry for an encyclopædia called "Bridgerton-o-pedia."
+
+Format your answer as a short encyclopædia entry (3–5 paragraphs). Use occasional italics (with <em> tags) for emphasis and book/show titles. Use <strong> tags for names on first mention. Keep the Regency tone throughout. End with a small editorial comment in Lady Whistledown's voice.
+
+Return only the HTML content (no code fences, no markdown, just the paragraphs with optional <em> and <strong> tags).`,
+          messages: [{
+            role: 'user',
+            content: `Write a Bridgerton-o-pedia entry about: "${topic}"`
+          }]
+        })
+      });
+
+      const data = await response.json();
+      const text = data?.content?.map(b => b.text || '').join('') || '';
+
+      if (!text) throw new Error('Empty response');
+
+      // Render answer
+      answerCard.innerHTML = `
+        <p class="answer-topic">~ ${escapeHtml(topic)} ~</p>
+        <div class="answer-text">${text}</div>`;
+
+    } catch (err) {
+      answerCard.innerHTML = `
+        <p class="answer-topic">~ ${escapeHtml(topic)} ~</p>
+        <div class="answer-text">
+          <p>This author regrets that her quill has momentarily run dry — most likely owing to some distraction at the Featherington ball. Pray, attempt your inquiry once more.</p>
+          <p><em>~ Lady Whistledown</em></p>
+        </div>`;
+      console.error('API error:', err);
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  /* Simple HTML escape */
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ================================================================
+     START
+  ================================================================ */
+  runSequence();
+</script>
+</body>
+</html>
